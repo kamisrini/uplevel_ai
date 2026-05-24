@@ -8,26 +8,24 @@ decision ownership, and clarity of outcomes.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from datetime import datetime
+from pydantic import BaseModel, Field
 
 
-@dataclass
-class SpeakerTurn:
+class SpeakerTurn(BaseModel):
     speaker: str
     text: str
     timestamp_seconds: float
 
 
-@dataclass
-class TranscriptChunk:
+class TranscriptChunk(BaseModel):
     meeting_id: str
     meeting_title: str
     date: datetime
-    turns: list[SpeakerTurn] = field(default_factory=list)
-    decisions: list[str] = field(default_factory=list)
-    action_items: list[str] = field(default_factory=list)
-    open_questions: list[str] = field(default_factory=list)
+    turns: list[SpeakerTurn] = Field(default_factory=list)
+    decisions: list[str] = Field(default_factory=list)
+    action_items: list[str] = Field(default_factory=list)
+    open_questions: list[str] = Field(default_factory=list)
 
     @property
     def leader_talk_ratio(self) -> float:

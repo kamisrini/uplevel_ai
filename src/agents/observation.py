@@ -8,9 +8,9 @@ behaviour signal that can be scored against the VP Engineering rubric.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from datetime import datetime
 from enum import StrEnum
+from pydantic import BaseModel, Field
 
 
 class SignalSource(StrEnum):
@@ -21,13 +21,12 @@ class SignalSource(StrEnum):
     MANUAL = "manual"  # from daily reflection form
 
 
-@dataclass
-class Observation:
+class Observation(BaseModel):
     source: SignalSource
     timestamp: datetime
     summary: str  # one-sentence description of the behaviour
     raw_text: str  # original text or event title for traceability
-    metadata: dict = field(default_factory=dict)
+  metadata: dict = Field(default_factory=dict)
 
 
 async def observe(state: dict) -> dict:

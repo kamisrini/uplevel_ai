@@ -12,11 +12,12 @@ cached system prompt to the Anthropic API (reducing repeated inference cost).
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from pydantic import BaseModel, ConfigDict
 
 
-@dataclass(frozen=True)
-class RubricDimension:
+class RubricDimension(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
     name: str
     description: str
     vp_expectation: str

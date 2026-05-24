@@ -8,11 +8,11 @@ owned/facilitated the meeting.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from datetime import datetime
 from enum import StrEnum
 
 import httpx
+from pydantic import BaseModel, Field
 
 
 class MeetingType(StrEnum):
@@ -24,13 +24,12 @@ class MeetingType(StrEnum):
     UNKNOWN = "unknown"
 
 
-@dataclass
-class CalendarEvent:
+class CalendarEvent(BaseModel):
     event_id: str
     title: str
     start: datetime
     end: datetime
-    attendees: list[str] = field(default_factory=list)
+    attendees: list[str] = Field(default_factory=list)
     organiser: str = ""
     meeting_type: MeetingType = MeetingType.UNKNOWN
     description: str = ""

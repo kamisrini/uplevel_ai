@@ -7,20 +7,19 @@ a structured DailyReport that can be persisted to Postgres and served via the AP
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from datetime import date
+from pydantic import BaseModel, Field
 
 from src.agents.observation import Observation
 from src.agents.reflection import ReflectionOutput
 from src.agents.scoring import DimensionAggregate, ScoredObservation
 
 
-@dataclass
-class DailyReport:
+class DailyReport(BaseModel):
     report_date: date
-    observations: list[Observation] = field(default_factory=list)
-    scored_observations: list[ScoredObservation] = field(default_factory=list)
-    dimension_scores: dict[str, float] = field(default_factory=dict)  # dimension → average
+  observations: list[Observation] = Field(default_factory=list)
+  scored_observations: list[ScoredObservation] = Field(default_factory=list)
+  dimension_scores: dict[str, float] = Field(default_factory=dict)  # dimension → average
     overall_score: float = 0.0  # average across all dimensions
     reflection: ReflectionOutput | None = None
 

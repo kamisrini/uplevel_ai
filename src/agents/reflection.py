@@ -10,15 +10,14 @@ daily form and incorporating it into the overall daily context.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from pydantic import BaseModel, Field
 
 
-@dataclass
-class ReflectionOutput:
+class ReflectionOutput(BaseModel):
     summary: str  # 2-3 sentence summary of the day's leadership signals
-    strengths: list[str] = field(default_factory=list)  # dimensions where score >= 4
-    growth_areas: list[str] = field(default_factory=list)  # dimensions where score <= 2
-    prompts: list[str] = field(default_factory=list)  # questions for the leader to reflect on
+  strengths: list[str] = Field(default_factory=list)  # dimensions where score >= 4
+  growth_areas: list[str] = Field(default_factory=list)  # dimensions where score <= 2
+  prompts: list[str] = Field(default_factory=list)  # questions for the leader to reflect on
     leader_response: str = ""  # verbatim from daily form, if provided
 
 

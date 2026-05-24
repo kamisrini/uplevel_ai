@@ -9,22 +9,20 @@ Produces a list of ScoredObservation objects and aggregated dimension scores.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from pydantic import BaseModel, Field
 
 from src.agents.observation import Observation
 from src.scoring.classifier import ClassificationResult
 
 
-@dataclass
-class ScoredObservation:
+class ScoredObservation(BaseModel):
     observation: Observation
-    classifications: list[ClassificationResult] = field(default_factory=list)
+    classifications: list[ClassificationResult] = Field(default_factory=list)
 
 
-@dataclass
-class DimensionAggregate:
+class DimensionAggregate(BaseModel):
     dimension: str
-    scores: list[int] = field(default_factory=list)
+    scores: list[int] = Field(default_factory=list)
 
     @property
     def average(self) -> float:

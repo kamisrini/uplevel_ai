@@ -8,11 +8,11 @@ acceptance criteria, shaping roadmap items, or still in the weeds of implementat
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from datetime import datetime
 from enum import StrEnum
 
 import httpx
+from pydantic import BaseModel, Field
 
 
 class WorkItemActivity(StrEnum):
@@ -23,8 +23,7 @@ class WorkItemActivity(StrEnum):
     ESCALATED = "escalated"
 
 
-@dataclass
-class WorkItem:
+class WorkItem(BaseModel):
     item_id: str
     title: str
     source: str  # "ado" | "jira"
@@ -32,7 +31,7 @@ class WorkItem:
     actor: str
     timestamp: datetime
     description: str = ""
-    tags: list[str] = field(default_factory=list)
+    tags: list[str] = Field(default_factory=list)
 
 
 class ADOIngester:

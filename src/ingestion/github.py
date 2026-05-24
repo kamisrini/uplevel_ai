@@ -8,11 +8,11 @@ architectural guidance in PR comments, and breadth of repositories the leader to
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from datetime import datetime
 from enum import StrEnum
 
 import httpx
+from pydantic import BaseModel, Field
 
 
 class GitHubActivityType(StrEnum):
@@ -23,8 +23,7 @@ class GitHubActivityType(StrEnum):
     REPO_CREATION = "repo_creation"
 
 
-@dataclass
-class GitHubEvent:
+class GitHubEvent(BaseModel):
     event_id: str
     activity_type: GitHubActivityType
     repo: str
@@ -32,7 +31,7 @@ class GitHubEvent:
     timestamp: datetime
     body: str = ""
     url: str = ""
-    metadata: dict = field(default_factory=dict)
+    metadata: dict = Field(default_factory=dict)
 
 
 class GitHubIngester:
